@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class AppInitializer{
@@ -5,6 +7,7 @@ public class AppInitializer{
     static String [][] users=new String[3][2];
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
+        boolean exitState=false;
 
 
 
@@ -16,26 +19,37 @@ public class AppInitializer{
                         "2) Are you new to here?",
                         "3)Do you want to exit the page?"
                 };
-        for (String question : initializePageQuestions) {
-            System.out.println(question);
+        while (!exitState){
+
+            for (String question : initializePageQuestions) {
+                System.out.println(question);
+
+            }
+            int UserInput = input.nextInt();
+            switch (UserInput){
+                case 1:if (login ()){
+                    printUi("Dashboard");
+                    openDashboard();
+                }{
+                    printUi("Application");
+                }break ;
+
+                case 2: if(register ()){
+                    openDashboard();}  break ;
+                case 3: System.out.println("Goodbye!");
+                    return ;
+                default: System.out.println("Wrong  input");
+                    return;
+            }
 
         }
-        int UserInput = input.nextInt();
-        switch (UserInput){
-            case 1:if (login ()){
-                openDashboard();}break ;
 
-            case 2: if(register ()){
-                openDashboard();}  break ;
-            case 3: break;
-            default:return;//exit
-
-        }
 
     }
     //login process
     public static boolean login(){
         Scanner input = new Scanner(System.in);
+        printUi("Login ");
         System.out.println("Please enter your email:");
         String email=input.nextLine();
         System.out.println("Please enter your password:");
@@ -55,7 +69,7 @@ public class AppInitializer{
             }
         }
 
-        System.out.println("404 Not Found");
+        System.out.println("404 email Not Found");
         return false;
 
     }
@@ -102,6 +116,17 @@ public class AppInitializer{
     }
 
 
+    public static void printUi(String position){
+
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+        String simpleDate = dateFormat.format(date);
+        String simpleTime = timeFormat.format(date);
+        System.out.println("==========="+simpleDate+"==========="+simpleTime+"======>"+position);
+
+
+    }
 
 
 }
