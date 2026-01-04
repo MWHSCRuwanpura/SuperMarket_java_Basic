@@ -40,6 +40,22 @@ public class AppInitializer{
         String email=input.nextLine();
         System.out.println("Please enter your password:");
         String password=input.nextLine();
+
+        for (int i = 0; i < users.length ; i++) {
+            if(users[i][0]!=null && users[i][0].equals(email)  ){
+                if(users[i][1].equals(password)){
+
+                    System.out.println("Welcome again!");
+                    return true;
+                }else{
+                    System.out.println("Wrong password");
+                    return false;
+                }
+
+            }
+        }
+
+        System.out.println("404 Not Found");
         return false;
 
     }
