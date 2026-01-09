@@ -255,8 +255,30 @@ public static void customerManagement(){
             }
             }
     }
-    
+
     private static void updateCustomer() {
+      Scanner input = new Scanner(System.in);
+        System.out.println("Enter Customer NIC to update:");
+        String nic=input.nextLine();
+        for (int i = 0; i < customers.length ; i++) {
+            if(customers[i][0]!=null && customers[i][0].equals(nic)) {
+
+
+                System.out.println("Enter new Name:");
+                String name=input.nextLine();
+                System.out.println("Enter new Address:");
+                String address=input.nextLine();
+                System.out.println("Enter new Salary:");
+                double salary=input.nextDouble();
+
+                customers[i][1]=name;
+                customers[i][2]=address;
+                customers[i][3]=String.valueOf(salary);
+
+                System.out.println("Customer updated successfully!");
+                return;
+            }
+        }
 
     }
     private static void deleteCustomer() {
