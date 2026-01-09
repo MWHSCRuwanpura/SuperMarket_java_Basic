@@ -253,7 +253,9 @@ public static void customerManagement(){
                 System.out.println("====================================================");
                 return;
             }
-            }
+
+        }
+        System.out.println("Customer not found.");
     }
 
     private static void updateCustomer() {
@@ -281,19 +283,43 @@ public static void customerManagement(){
         }
 
     }
+
     private static void deleteCustomer() {
 
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter Customer NIC to find:");
+        String nic=input.nextLine();
+        for (int i = 0; i < customers.length ; i++) {
+            if(customers[i][0]!=null && customers[i][0].equals(nic)) {
+
+                customers[i][0]=null;
+                customers[i][1]=null;
+                customers[i][2]=null;
+                customers[i][3]=null;
+
+                System.out.println("Customer deleted successfully.");
+                return;
+            }
+
+        }
+        System.out.println("Customer not found.");
+
     }
+
     private static void findAllCustomers() {
+        System.out.println("All Customers:");
+        System.out.println("====================================================");
+        for (int i = 0; i < customers.length ; i++) {
+            if(customers[i][0]!=null) {
+
+                System.out.println("NIC: " + customers[i][0]+"\tName: " + customers[i][1]+"\tAddress: " + customers[i][2]+"\tSalary: " + customers[i][3]);
+            }else {
+                return;
+            }
+
+        }
+        System.out.println("====================================================");
     }
-
-
-
-
-
-
-
-
 
     public static void printUi(String position){
 
