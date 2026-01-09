@@ -6,6 +6,7 @@ public class AppInitializer{
     //DataBase Area
     static String [][] users=new String[3][2];
     static String [][] customers=new String[100][4];
+    static String [][] items=new String[100][4]; // code, description, qtyOnHand, unitPrice
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         boolean exitState=false;
@@ -149,7 +150,172 @@ public class AppInitializer{
     }
 
     private static void itemManagement() {
+        Scanner input = new Scanner(System.in);
+        String itemManagementOptions[]={
+                "1) Save Item",
+                "2) Find Item",
+                "3) Update Item",
+                "4) Delete Item",
+                "5) Find All Items",
+                "6) Back to Dashboard"
+        };
+        while (true){
+            for (String option : itemManagementOptions) {
+                System.out.println(option);
+            }
+            int UserInput = input.nextInt();
+            switch (UserInput){
+                case 1:
+                    saveItem();
+                    break;
+                case 2:
+                    findItem();
+                    break;
+                case 3:
+                    updateItem();
+                    break;
+                case 4:
+                    deleteItem();
+                    break;
+                case 5:
+                    findAllItems();
+                    break;
+                case 6:
+                    return;
+                default:
+                    return;
+            }
+        }
     }
+    private static void saveItem() {
+        //store item data
+        Scanner input = new Scanner(System.in);
+        while (true){
+            String code, description;
+            int qtyOnHand;
+            double unitPrice;
+
+            System.out.println("Enter Item Code:");
+            code=input.nextLine();
+            System.out.println("Enter Item Description:");
+            description=input.nextLine();
+            System.out.println("Enter Quantity On Hand:");
+            qtyOnHand=input.nextInt();
+            System.out.println("Enter Unit Price:");
+            unitPrice=input.nextDouble();
+
+            itemForLoop:
+            for (int i = 0; i < items.length ; i++) {
+                if(items[i][0]!=null){
+                    if(items[i][0].equals(code)){
+                        System.out.println("Item already exists");
+                        break;
+                    }
+                }else {
+                    items[i][0]=code;
+                    items[i][1]=description;
+                    items[i][2]=String.valueOf(qtyOnHand);
+                    items[i][3]=String.valueOf(unitPrice);
+                    System.out.println("Item saved successfully!\n");
+                    System.out.println("1)Do you want to add another item? (yes/no)");
+                    System.out.println("2)Back to Main Menu");
+                    int option=input.nextInt();
+                    input.nextLine(); // Consume newline
+                    switch (option){
+                        case 1:
+                            break itemForLoop;
+                        case 2:
+                            return;
+                        default:
+                            System.out.println("Invalid option. Returning to Main Menu.");
+                            return;
+                    }
+                }
+            }
+        }
+    }
+
+    private static void findItem() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter Item Code to find:");
+        String code=input.nextLine();
+        for (int i = 0; i < items.length ; i++) {
+            if(items[i][0]!=null && items[i][0].equals(code)) {
+
+                System.out.println("Item Found:");
+                System.out.println("==================Item Details==================");
+                System.out.println("Code: " + items[i][0]);
+                System.out.println("Description: " + items[i][1]);
+                System.out.println("Quantity On Hand: " + items[i][2]);
+                System.out.println("Unit Price: " + items[i][3]);
+                System.out.println("=================================================");
+                return;
+            }
+
+        }
+        System.out.println("Item not found.");
+    }
+
+    private static void updateItem() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter Item Code to update:");
+        String code=input.nextLine();
+        for (int i = 0; i < items.length ; i++) {
+            if(items[i][0]!=null && items[i][0].equals(code)) {
+
+                System.out.println("Enter new Description:");
+                String description=input.nextLine();
+                System.out.println("Enter new Quantity On Hand:");
+                int qtyOnHand=input.nextInt();
+                System.out.println("Enter new Unit Price:");
+                double unitPrice=input.nextDouble();
+
+                items[i][1]=description;
+                items[i][2]=String.valueOf(qtyOnHand);
+                items[i][3]=String.valueOf(unitPrice);
+
+                System.out.println("Item updated successfully!");
+                return;
+            }
+        }
+        System.out.println("Item not found.");
+    }
+
+    private static void deleteItem() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter Item Code to delete:");
+        String code=input.nextLine();
+        for (int i = 0; i < items.length ; i++) {
+            if(items[i][0]!=null && items[i][0].equals(code)) {
+
+                items[i][0]=null;
+                items[i][1]=null;
+                items[i][2]=null;
+                items[i][3]=null;
+
+                System.out.println("Item deleted successfully.");
+                return;
+            }
+
+        }
+        System.out.println("Item not found.");
+    }
+
+    private static void findAllItems() {
+        System.out.println("All Items:");
+        System.out.println("====================================================");
+        for (int i = 0; i < items.length ; i++) {
+            if(items[i][0]!=null) {
+
+                System.out.println("Code: " + items[i][0]+"\tDescription: " + items[i][1]+"\tQty On Hand: " + items[i][2]+"\tUnit Price: " + items[i][3]);
+            }else {
+                return;
+            }
+
+        }
+        System.out.println("====================================================");
+    }
+
 
     //Customer Management process
 public static void customerManagement(){
@@ -188,6 +354,7 @@ public static void customerManagement(){
 
                     return ;
                 default:
+                    return;
             }
         }
 }
@@ -320,6 +487,7 @@ public static void customerManagement(){
         }
         System.out.println("====================================================");
     }
+
 
     public static void printUi(String position){
 
