@@ -27,7 +27,10 @@ public class AppInitializer{
             }
             int UserInput = input.nextInt();
             switch (UserInput){
-                case 1:if (login ()){
+                case 1:
+                    users[0][0]="sajithachamod13579@gmail.com";
+                    users[0][1]="sajitha123";
+                    if (login ()){
                     printUi("Dashboard");
                     openDashboard();
                 }{
@@ -107,14 +110,44 @@ public class AppInitializer{
 
     //dashboard process
     public static void openDashboard(){
+        Scanner input = new Scanner(System.in);
+        String dashBoardOptions[]={
+                "1) Customer Management",
+                "2) Item Management",
+                "3) Order Management",
+                "4) Logout"
+        };
+        while (true){
+            for (String option : dashBoardOptions) {
+                System.out.println(option);
 
+            }
+            int UserInput = input.nextInt();
 
-
-
-
-
+            switch (UserInput){
+                case 1:
+                    printUi("Customer Management");
+                    break ;
+                case 2:
+                    printUi( "Item Management");
+                    break ;
+                case 3:
+                    printUi( "Order Management");
+                    break ;
+                case 4:
+                    printUi( "Logout");
+                    return ;
+                default:
+                    System.out.println("Wrong  input");
+                    return;
+            }
+        }
     }
 
+    //Customer Management process
+public static void customerManagement(){
+
+}
 
     public static void printUi(String position){
 
