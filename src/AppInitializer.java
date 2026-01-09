@@ -236,9 +236,26 @@ public static void customerManagement(){
             }
         }
     }
-    private static void findCustomer() {
 
+    private static void findCustomer() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter Customer NIC to find:");
+        String nic=input.nextLine();
+        for (int i = 0; i < customers.length ; i++) {
+            if(customers[i][0]!=null && customers[i][0].equals(nic)) {
+
+                System.out.println("Customer Found:");
+                System.out.println("==================Customer Details==================");
+                System.out.println("NIC: " + customers[i][0]);
+                System.out.println("Name: " + customers[i][1]);
+                System.out.println("Address: " + customers[i][2]);
+                System.out.println("Salary: " + customers[i][3]);
+                System.out.println("====================================================");
+                return;
+            }
+            }
     }
+    
     private static void updateCustomer() {
 
     }
