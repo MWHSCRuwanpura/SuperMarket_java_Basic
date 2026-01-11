@@ -6,11 +6,14 @@ public class AppInitializer{
     //DataBase Area
     static String [][] users=new String[3][2];
     static String [][] customers=new String[100][4];
-    static String [][] items=new String[100][4]; // code, description, qtyOnHand, unitPrice
+    static String [][] items=new String[100][4];
+    static String [][] orders=new String[100][5];
+
+
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         boolean exitState=false;
-
 
 
 
@@ -134,7 +137,7 @@ public class AppInitializer{
                     itemManagement();
                     break ;
                 case 3:
-                    orderManagement();
+                    placeNewOrder();
                     break ;
                 case 4:
                     
@@ -146,9 +149,8 @@ public class AppInitializer{
         }
     }
 
-    private static void orderManagement() {
-    }
 
+    //Item Management process
     private static void itemManagement() {
         Scanner input = new Scanner(System.in);
         String itemManagementOptions[]={
@@ -376,11 +378,11 @@ public static void customerManagement(){
             customerFoorLoop:
             for (int i = 0; i < customers.length ; i++) {
                 if(customers[i][0]!=null){
-                    if(customers[i][1].equals(nic)){
+                    if(customers[i][0].equals(nic)){
                         System.out.println("Customer already exists");
                         break;
                     }
-                    }else {
+                }else {
                     customers[i][0]=nic;
                     customers[i][1]=name;
                     customers[i][2]=address;
@@ -488,7 +490,83 @@ public static void customerManagement(){
         System.out.println("====================================================");
     }
 
+    //Order  process
+    public static void placeNewOrder(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("Insert Customer NIC:");
+        String nic=input.nextLine();
 
+        String name,address;
+        double salary;
+        boolean customerFound = false;
+        // =====Customer find process=====
+        for (int i = 0; i < customers.length ; i++) {
+            if (customers[i][0] != null && customers[i][0].equals(nic)) {
+                name= customers[i][1];
+                address = customers[i][2];
+                salary =Double.parseDouble(customers[i][3]);
+                customerFound = true;
+                break;
+            }
+        }
+
+        if(!customerFound){
+            System.out.println("Customer not found!");
+            return;
+        }
+        // =====Customer find process=====
+
+        // =====Item find process=====
+        System.out.println("Insert Item Code:");
+        String code=input.nextLine();
+
+        String description;
+        int qtyOnHand;
+        double unitPrice = 0;
+        boolean itemFound = false;
+        for (int i = 0; i < items.length ; i++) {
+            if (items[i][0] != null && items[i][0].equals(code)) {
+                description = items[i][1];
+                qtyOnHand = Integer.parseInt(items[i][2]);
+                unitPrice =Double.parseDouble(items[i][3]);
+                itemFound = true;
+                break;
+            }
+        }
+
+        if(!itemFound){
+            System.out.println("Item not found!");
+            return;
+        }
+        // =====Item find process=====
+
+        System.out.println("Insert Order code:");
+        String orderId=input.nextLine();
+
+        // Check for duplicate order ID and find empty slot
+        for (int i = 0; i < orders.length; i++) {
+            if(orders[i][0]!=null){
+                if(orders[i][0].equals(orderId)){
+                    System.out.println("Order Id already exists");
+                    return;
+                }
+            }else {
+                // Found empty slot, save the order
+                Date date = new Date();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                String simpleDate = dateFormat.format(date);
+                orders[i][0]=orderId;
+                orders[i][1]=nic;
+                orders[i][2]=code;
+                orders[i][3]= simpleDate;
+                orders[i][4]=String.valueOf(unitPrice);
+                System.out.println("Order placed successfully!");
+                return;
+            }
+        }
+
+        System.out.println("Order database is full!");
+    }
     public static void printUi(String position){
 
         Date date = new Date();
